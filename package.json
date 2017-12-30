@@ -1,0 +1,49 @@
+{
+  "name": "tesseracat",
+  "description": "The Tesseracat Home Automation software",
+  "version": "0.0.1",
+  "homepage": "https://github.com/tesseracat/tesseracat",
+  "main": "src",
+  "keywords": [
+    "feathers"
+  ],
+  "author": {
+    "name": "Christopher Mühl",
+    "email": "christopher@padarom.io"
+  },
+  "contributors": [],
+  "bugs": {},
+  "directories": {
+    "lib": "src",
+    "test": "test/"
+  },
+  "engines": {
+    "node": "^7.0.0",
+    "yarn": ">= 0.18.0"
+  },
+  "bin": { "tesseracat": "src/cli/cli.js" },
+  "scripts": {
+    "test": "yarn run eslint && yarn run mocha",
+    "eslint": "eslint src/. test/. --config .eslintrc.json",
+    "start": "node src/",
+    "mocha": "mocha test/ --recursive --exit"
+  },
+  "dependencies": {
+    "@feathersjs/configuration": "^1.0.1",
+    "@feathersjs/errors": "^3.2.0",
+    "@feathersjs/express": "^1.1.2",
+    "@feathersjs/feathers": "^3.0.2",
+    "@feathersjs/socketio": "^3.0.1",
+    "compression": "^1.7.1",
+    "cors": "^2.8.4",
+    "helmet": "^3.9.0",
+    "serve-favicon": "^2.4.5",
+    "winston": "^2.4.0"
+  },
+  "devDependencies": {
+    "eslint": "^4.14.0",
+    "mocha": "^4.1.0",
+    "request": "^2.83.0",
+    "request-promise": "^4.2.2"
+  }
+}
