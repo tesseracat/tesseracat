@@ -1,8 +1,8 @@
 {
-  "name": "tesseracat",
-  "description": "The Tesseracat Home Automation software",
+  "name": "iotame",
+  "description": "The iotame Home Automation software",
   "version": "0.0.1",
-  "homepage": "https://github.com/tesseracat/tesseracat",
+  "homepage": "https://github.com/iotame/iotame",
   "main": "src",
   "keywords": [
     "feathers"
@@ -21,7 +21,7 @@
     "node": "^7.0.0",
     "yarn": ">= 0.18.0"
   },
-  "bin": { "tesseracat": "src/cli/cli.js" },
+  "bin": { "iotame": "src/cli/cli.js" },
   "scripts": {
     "test": "yarn run eslint && yarn run mocha",
     "eslint": "eslint src/. test/. --config .eslintrc.json",

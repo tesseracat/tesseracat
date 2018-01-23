@@ -1,6 +1,7 @@
-# tesseracat
+# iotame
+### Tame the Internet of Things
 
-> The Tesseracat Home Automation software
+iotame is a smart home automation software made for everyone.
 
 ## License
 
