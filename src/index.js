@@ -4,14 +4,14 @@ const fs = require('fs');
 
 fs.readFile('daemon.pid', (err, data) => {
   if (!err) {
-    logger.error('Tesseracat is already running with PID %s.', data);
+    logger.error('iotame is already running with PID %s.', data);
     process.exit(1);
   }
 
-  logger.info('Daemonizing Tesseracat now.');
+  logger.info('Daemonizing iotame now.');
 
   // Daemonize now.
-  require('daemon')();
+  // require('daemon')();
 
   logger.info('Successfully daemonized with PID %s.', process.pid);
 
@@ -23,9 +23,12 @@ fs.readFile('daemon.pid', (err, data) => {
 });
 
 function startApplication() {
-  const app = require('./app');
+  const app = require('./web/app');
   const port = app.get('port');
   const server = app.listen(port);
+
+  let Migrator = require('./iot/Migrator')
+  let migrator = new Migrator()
   
   process.on('unhandledRejection', (reason, p) =>
     logger.error('Unhandled Rejection at: Promise ', p, reason)

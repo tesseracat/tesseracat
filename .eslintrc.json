@@ -5,9 +5,13 @@
     "mocha": true
   },
   "parserOptions": {
+    "sourceType": "module",
     "ecmaVersion": 2017
   },
-  "extends": "eslint:recommended",
+  "extends": [
+    "standard",
+    "eslint:recommended"
+  ],
   "rules": {
     "indent": [
       "error",
@@ -20,10 +24,6 @@
     "quotes": [
       "error",
       "single"
-    ],
-    "semi": [
-      "error",
-      "always"
     ]
   }
 }

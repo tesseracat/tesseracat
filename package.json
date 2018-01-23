@@ -21,7 +21,9 @@
     "node": "^7.0.0",
     "yarn": ">= 0.18.0"
   },
-  "bin": { "iotame": "src/cli/cli.js" },
+  "bin": {
+    "iotame": "src/cli/cli.js"
+  },
   "scripts": {
     "test": "yarn run eslint && yarn run mocha",
     "eslint": "eslint src/. test/. --config .eslintrc.json",
@@ -36,12 +38,16 @@
     "@feathersjs/socketio": "^3.0.1",
     "compression": "^1.7.1",
     "cors": "^2.8.4",
+    "daemon": "^1.1.0",
+    "db-migrate": "^0.10.2",
+    "db-migrate-sqlite3": "^0.2.1",
     "helmet": "^3.9.0",
     "serve-favicon": "^2.4.5",
     "winston": "^2.4.0"
   },
   "devDependencies": {
     "eslint": "^4.14.0",
+    "eslint-config-standard": "^11.0.0-beta.0",
     "mocha": "^4.1.0",
     "request": "^2.83.0",
     "request-promise": "^4.2.2"
