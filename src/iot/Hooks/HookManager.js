@@ -20,7 +20,7 @@ module.exports = class HookManager {
   add (...elements) {
     _.each(elements, hook => {
       if (!(hook instanceof Hook)) {
-        logger.error('HookManager received something other than a Hook')
+        // logger.error('HookManager received something other than a Hook')
         return
       }
 
@@ -50,9 +50,23 @@ module.exports = class HookManager {
     }
 
     // Perform actions
-    // ----
+    _.each(this._actions(event, caller), action => {
+      // TODO: Make sure actions are called asynchronously ?
+      action.apply(action, [event, caller, options])
+    })
 
     return { filtered: false, options }
+  }
+
+  _getHook (event, caller, type) {
+    if (!this.hooks[event])
+      return []
+
+    return _(this.hooks[event])
+      .filter(hook => hook.type == type)
+      // .filter(hook => true) Check for caller inheritance
+      .map(hook => hook.method())
+      .value()
   }
 
   _filters (event, caller) {
@@ -65,16 +79,5 @@ module.exports = class HookManager {
 
   _actions (event, caller) {
     return this._getHook(event, caller, 'action')
-  }
-
-  _getHook (event, caller, type) {
-    if (!this.hooks[event])
-      return []
-
-    return _(this.hooks[event])
-      .filter(hook => hook.type == type)
-      // .filter(hook => true) Check for caller inheritance
-      .map(hook => hook.method())
-      .value()
   }
 }

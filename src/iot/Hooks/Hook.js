@@ -3,6 +3,8 @@ module.exports = class Hook {
     if (new.target === Hook) {
       throw new TypeError('Cannot construct abstract Hook instances directly')
     }
+
+    this.inheriting = false
   }
 
   method () {
@@ -11,6 +13,12 @@ module.exports = class Hook {
 
   on (event) {
     this.event = event
+
+    return this
+  }
+
+  inheriting () {
+    this.inheriting = true
 
     return this
   }

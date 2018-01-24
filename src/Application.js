@@ -8,21 +8,19 @@ let Supervisor = require('./iot/Supervisor')
 module.exports = class Application {
   boot () {
     this.migrate()
+      .then(() => this.redis())
       .then(() => this.manager())
       .then(() => this.feather())
-      .then(() => this.redis())
       .catch((err) => this.tearDown(err))
   }
 
   migrate () {
     let migrator = new Migrator()
-
     return migrator.migrate()
   }
 
   manager () {
-    this.manager = new Supervisor()
-
+    this.manager = new Supervisor(this.redis)
     return this.manager.boot()
   }
 
@@ -41,7 +39,7 @@ module.exports = class Application {
 
   redis () {
     return new Promise((resolve, reject) => {
-      logger.info("Redis started.")
+      this.redis = ''
       resolve()
     })
   }
