@@ -3,10 +3,10 @@
   "description": "The iotame Home Automation software",
   "license": "CC-BY-4.0",
   "version": "0.0.1",
-  "homepage": "https://github.com/iotame/iotame",
+  "homepage": "https://www.iotame.cloud",
   "main": "src",
   "keywords": [
-    "feathers"
+    "iot", "internet-of-things", "smart-home", "home-automation"
   ],
   "author": {
     "name": "Christopher Mühl",
@@ -37,7 +37,7 @@
     "@feathersjs/express": "^1.1.2",
     "@feathersjs/feathers": "^3.0.2",
     "@feathersjs/socketio": "^3.0.1",
-    "@iotame/interface": "file:../interface",
+    "@iotame/interface": "@iotame/interface",
     "bluebird": "^3.5.1",
     "compression": "^1.7.1",
     "cors": "^2.8.4",
@@ -46,8 +46,7 @@
     "db-migrate-sqlite3": "^0.2.1",
     "helmet": "^3.9.0",
     "lodash": "^4.17.4",
-    "noble": "^1.8.1",
-    "serve-favicon": "^2.4.5",
+    "noble": "git://github.com/jacobrosenthal/noble.git#highsierra",
     "sqlite3": "^3.1.13",
     "winston": "^2.4.0"
   },
