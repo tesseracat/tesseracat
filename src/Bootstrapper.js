@@ -17,7 +17,7 @@ module.exports = class Bootstrapper {
       .then(() => this.bootRedis())
       .then(() => this.bootSupervisor())
       .then(() => this.bootFeathers())
-      .catch((err) => this.tearDown(err))
+      .catch((err) => { this.tearDown(err) })
   }
 
   daemonize () {
@@ -25,7 +25,7 @@ module.exports = class Bootstrapper {
       .then(() => {
         logger.info('Daemonizing iotame now.')
 
-        // require('daemon')();
+        require('daemon')({ cwd: process.cwd() });
         // Everything from now on only happens in a daemonized instance.
 
         this.daemonized = true
