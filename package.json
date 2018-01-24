@@ -36,7 +36,7 @@
     "@feathersjs/express": "^1.1.2",
     "@feathersjs/feathers": "^3.0.2",
     "@feathersjs/socketio": "^3.0.1",
-    "@iotame/interface": "^0.0.1",
+    "@iotame/interface": "file:../interface",
     "bluebird": "^3.5.1",
     "compression": "^1.7.1",
     "cors": "^2.8.4",
@@ -44,6 +44,7 @@
     "db-migrate": "^0.10.2",
     "db-migrate-sqlite3": "^0.2.1",
     "helmet": "^3.9.0",
+    "lodash": "^4.17.4",
     "serve-favicon": "^2.4.5",
     "winston": "^2.4.0"
   },
@@ -51,6 +52,7 @@
     "eslint": "^4.14.0",
     "eslint-config-standard": "^11.0.0-beta.0",
     "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-node": "^5.2.1",
     "mocha": "^4.1.0",
     "request": "^2.83.0",
     "request-promise": "^4.2.2"

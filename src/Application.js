@@ -2,8 +2,8 @@ let logger = require('winston')
 let Promise = require('bluebird')
 
 let Migrator = require('./iot/Migrator')
-let Feather  = require('./web/app')
-let Manager  = require('./index') // Change to iot/Manager
+let Feathers = require('./web/app')
+let Supervisor = require('./iot/Supervisor')
 
 module.exports = class Application {
   boot () {
@@ -11,7 +11,7 @@ module.exports = class Application {
       .then(() => this.manager())
       .then(() => this.feather())
       .then(() => this.redis())
-      .catch(this.handler)
+      .catch((err) => this.tearDown(err))
   }
 
   migrate () {
@@ -21,19 +21,18 @@ module.exports = class Application {
   }
 
   manager () {
-    return new Promise((resolve, reject) => {
-      logger.info("Manager started.")
-      resolve()
-    })
+    this.manager = new Supervisor()
+
+    return this.manager.boot()
   }
 
   feather () {
     return new Promise((resolve, reject) => {
-      let host = Feather.get('host')
-      let port = Feather.get('port')
-      let server = Feather.listen(port)
+      let host = Feathers.get('host')
+      let port = Feathers.get('port')
+      this.http = Feathers.listen(port)
 
-      server.on('listening', () => {
+      this.http.on('listening', () => {
         logger.info('Feathers application started on http://%s:%d', host, port)
         resolve()
       })
@@ -47,7 +46,10 @@ module.exports = class Application {
     })
   }
 
-  handler (error) {
-    logger.error(error)
+  tearDown (error) {
+    if (this.manager) this.manager.stop()
+    if (this.http) this.http.close()
+
+    if (error) logger.error(error)
   }
 }
