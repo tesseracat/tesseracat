@@ -1,7 +1,7 @@
 const logger = require('winston')
 const fs = require('fs')
 
-const Application = require('./Application')
+const Bootstrapper = require('./Bootstrapper')
 
 new Promise((resolve, reject) => {
   fs.readFile('daemon.pid', (err, data) => {
@@ -28,7 +28,7 @@ new Promise((resolve, reject) => {
   process.on('exit', killApplication)
   process.on('SIGTERM', killApplication)
 
-  let application = new Application()
-  application.boot()
+  let bootstrapper = new Bootstrapper()
+  bootstrapper.boot()
 
 }).catch(data => { logger.error('iotame is already running with PID %s.', data) })

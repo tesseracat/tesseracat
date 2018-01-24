@@ -5,7 +5,7 @@ let Migrator = require('./iot/Migrator')
 let Feathers = require('./web/app')
 let Supervisor = require('./iot/Supervisor')
 
-module.exports = class Application {
+module.exports = class Bootstrapper {
   boot () {
     this.migrate()
       .then(() => this.redis())
