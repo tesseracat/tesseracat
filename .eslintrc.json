@@ -9,8 +9,7 @@
     "ecmaVersion": 2017
   },
   "extends": [
-    "standard",
-    "eslint:recommended"
+    "standard"
   ],
   "rules": {
     "indent": [
