@@ -46,6 +46,7 @@
     "db-migrate-sqlite3": "^0.2.1",
     "helmet": "^3.9.0",
     "lodash": "^4.17.4",
+    "noble": "^1.8.1",
     "serve-favicon": "^2.4.5",
     "sqlite3": "^3.1.13",
     "winston": "^2.4.0"

@@ -1,10 +1,10 @@
 let logger = require('winston')
 let Promise = require('bluebird')
 
-let ExtensionManager = require('./Extensions/ExtensionManager')
-let ChannelManager = require('./Channels/ChannelManager')
-let DeviceManager = require('./Devices/DeviceManager')
-let HookManager = require('./Hooks/HookManager')
+let ExtensionManager = require('./ExtensionManager')
+let ChannelManager = require('./ChannelManager')
+let DeviceManager = require('./DeviceManager')
+let HookManager = require('./HookManager')
 
 let Action = require('./Hooks/Action')
 let Filter = require('./Hooks/Filter')
