@@ -1,17 +1,51 @@
-let logger = require('winston')
 let Promise = require('bluebird')
+let logger = require('winston')
+const fs = require('fs')
 
 let Migrator = require('./iot/Migrator')
 let Feathers = require('./web/app')
 let Supervisor = require('./iot/Supervisor')
 
 module.exports = class Bootstrapper {
+  constructor () {
+    this.daemonized = false
+  }
+
   boot () {
-    this.migrate()
-      .then(() => this.redis())
-      .then(() => this.manager())
-      .then(() => this.feather())
+    this.daemonize()
+      .then(() => this.migrate())
+      .then(() => this.bootRedis())
+      .then(() => this.bootSupervisor())
+      .then(() => this.bootFeathers())
       .catch((err) => this.tearDown(err))
+  }
+
+  daemonize () {
+    return this._onlyRunOnce()
+      .then(() => {
+        logger.info('Daemonizing iotame now.')
+
+        // require('daemon')();
+        // Everything from now on only happens in a daemonized instance.
+
+        this.daemonized = true
+        logger.info('Successfully daemonized with PID %s.', process.pid)
+        fs.writeFileSync('daemon.pid', process.pid)
+
+        process.on('exit', () => { this.tearDown() })
+        process.on('SIGTERM', () => { this.tearDown() })
+      })
+  }
+
+  _onlyRunOnce() {
+    return new Promise((resolve, reject) => {
+      fs.readFile('daemon.pid', (err, data) => {
+        // Keep in mind that we're doing it the other way around.
+        // If daemon.pid can't be read, we continue, otherwise we reject.
+
+        err ? resolve() : reject(['iotame is already running with PID %s.', data])
+      })
+    })
   }
 
   migrate () {
@@ -19,12 +53,19 @@ module.exports = class Bootstrapper {
     return migrator.migrate()
   }
 
-  manager () {
-    this.manager = new Supervisor(this.redis)
-    return this.manager.boot()
+  bootRedis () {
+    return new Promise((resolve, reject) => {
+      this.redis = ''
+      resolve()
+    })
   }
 
-  feather () {
+  bootSupervisor () {
+    this.supervisor = new Supervisor(this.redis)
+    return this.supervisor.boot()
+  }
+
+  bootFeathers () {
     return new Promise((resolve, reject) => {
       let host = Feathers.get('host')
       let port = Feathers.get('port')
@@ -37,17 +78,12 @@ module.exports = class Bootstrapper {
     })
   }
 
-  redis () {
-    return new Promise((resolve, reject) => {
-      this.redis = ''
-      resolve()
-    })
-  }
-
   tearDown (error) {
-    if (this.manager) this.manager.stop()
+    if (this.supervisor) this.supervisor.stop()
     if (this.http) this.http.close()
 
-    if (error) logger.error(error)
+    if (error) logger.error(... error)
+
+    if (this.daemonized) fs.unlinkSync('daemon.pid')
   }
 }
