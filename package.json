@@ -36,6 +36,7 @@
     "@feathersjs/express": "^1.1.2",
     "@feathersjs/feathers": "^3.0.2",
     "@feathersjs/socketio": "^3.0.1",
+    "@iotame/interface": "^0.0.1",
     "bluebird": "^3.5.1",
     "compression": "^1.7.1",
     "cors": "^2.8.4",
