@@ -1,5 +1,5 @@
 let _ = require('lodash')
-let logger = require('winston')
+let logger = require('../Logger')
 
 let Mutator = require('@iotame/api').Mutator
 let Action = require('@iotame/api').Action

@@ -2,7 +2,7 @@ const path = require('path');
 const compress = require('compression');
 const cors = require('cors');
 const helmet = require('helmet');
-const logger = require('winston');
+const logger = require('../Logger');
 
 const feathers = require('@feathersjs/feathers');
 const configuration = require('@feathersjs/configuration');

@@ -13,7 +13,7 @@ require('yargs')
       type: 'boolean'
     })
   }, (argv) => {
-    const Bootstrapper = require('../Bootstrapper')
+    const Bootstrapper = require('./Bootstrapper')
 
     let bootstrapper = new Bootstrapper(argv.develop)
     bootstrapper.boot()

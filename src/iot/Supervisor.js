@@ -1,4 +1,3 @@
-let logger = require('winston')
 let Promise = require('bluebird')
 
 let ExtensionManager = require('./ExtensionManager')
@@ -10,7 +9,7 @@ let Action = require('@iotame/api').Action
 let Filter = require('@iotame/api').Filter
 
 module.exports = class Supervisor {
-  constructor (redis) {
+  constructor (logger, redis) {
     this.redis = redis
   }
 

@@ -1,5 +1,5 @@
 let Promise = require('bluebird')
-let logger = require('winston')
+let logger = require('./Logger')
 const fs = require('fs')
 
 let Migrator = require('./iot/Migrator')
@@ -67,7 +67,7 @@ module.exports = class Bootstrapper {
   }
 
   bootSupervisor () {
-    this.supervisor = new Supervisor(this.redis)
+    this.supervisor = new Supervisor(logger, this.redis)
     return this.supervisor.boot()
   }
 
