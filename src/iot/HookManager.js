@@ -32,7 +32,9 @@ module.exports = class HookManager {
   }
 
   _dispatch (event, caller, options) {
-    let filtered = _.some(this._filters(event), filter => {
+    let hooks = this._getHooks(event)
+
+    let filtered = _.some(hooks.filter, filter => {
       filter.apply(filter, [event, caller, options])
     })
 
@@ -41,16 +43,15 @@ module.exports = class HookManager {
 
     // Mutate options
     if (options) {
-      _.each(this._mutators(event), mutator => {
+      _.each(hooks.mutator, mutator => {
         options = mutator.apply(mutator, [event, caller, options])
       })
     }
 
     // Perform actions
-    let actions = this._actions(event)
-    if (actions.length > 0) {
+    if (hooks.action.length > 0) {
       // Try to make this asynchronous / non-blocking!
-      _.each(actions, action => {
+      _.each(hooks.action, action => {
         action.apply(action, [event, caller, options])
       })
     }
@@ -58,27 +59,19 @@ module.exports = class HookManager {
     return { filtered: false, options }
   }
 
-  _getHook (event, type) {
-    return _(this.hooks)
+  _getHooks (event, type) {
+    let hooks = _(this.hooks)
       .filter((hook, name) => {
         if (name.endsWith('*')) return event.startsWith(name.replace('*', ''))
         return event == name
       })
       .flatten()
-      .filter(hook => hook.type == type)
-      .map(hook => hook.method())
       .value()
-  }
 
-  _filters (event) {
-    return this._getHook(event, 'filter')
-  }
-
-  _mutators (event) {
-    return this._getHook(event, 'mutator')
-  }
-
-  _actions (event) {
-    return this._getHook(event, 'action')
+    let types = { filter: [], action: [], mutator: [] }
+    return _.mapValues(types, (a, type) => {
+      return hooks.filter(hook => type == hook.type)
+        .map(hook => hook.method())
+    })
   }
 }
