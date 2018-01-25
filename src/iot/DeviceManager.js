@@ -1,5 +1,5 @@
 module.exports = class DeviceManager {
-  constructor (dispatch) {
+  constructor (supervisor, dispatch) {
     this.dispatch = dispatch
   }
 

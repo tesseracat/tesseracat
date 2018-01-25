@@ -6,8 +6,8 @@ let ChannelManager = require('./ChannelManager')
 let DeviceManager = require('./DeviceManager')
 let HookManager = require('./HookManager')
 
-let Action = require('./Hooks/Action')
-let Filter = require('./Hooks/Filter')
+let Action = require('@iotame/api').Action
+let Filter = require('@iotame/api').Filter
 
 module.exports = class Supervisor {
   constructor (redis) {
@@ -24,18 +24,18 @@ module.exports = class Supervisor {
       this.hooks.add(... this._generalHooks())      // Add general hooks
 
       // Generate an extension manager and register it
-      this.extensions = new ExtensionManager(dispatch)
+      this.extensions = new ExtensionManager(this, dispatch)
       this.extensions.register()
 
       // Add extension hooks
       this.hooks.add(... this.extensions.hooks())
 
       // Generate a devices manager and boot it up
-      this.devices = new DeviceManager(dispatch)
+      this.devices = new DeviceManager(this, dispatch)
       this.devices.greet()
 
       // Generate a channel manager and open channels needed by our devices
-      this.channels = new ChannelManager(dispatch)
+      this.channels = new ChannelManager(this, dispatch)
       this.channels.open(this.devices.list())
 
       this.ready = true
@@ -47,6 +47,10 @@ module.exports = class Supervisor {
 
   stop () {
     // Tear down everything important
+  }
+
+  resolve (name) {
+    return this.extensions.resolve(name)
   }
 
   _channelHandlers () {

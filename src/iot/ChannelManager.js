@@ -1,16 +1,14 @@
-let Bluetooth = require('./Channels/Bluetooth')
+let _ = require('lodash')
 
 module.exports = class ChannelManager {
-  constructor (dispatch) {
+  constructor (supervisor, dispatch) {
+    this.supervisor = supervisor
     this.dispatch = dispatch
 
     this.channels = []
   }
 
-  open () {
-    let bluetooth = new Bluetooth()
-    bluetooth.open()
-
-    this.channels.push(bluetooth)
+  open (devices) {
+    console.log(this.supervisor.resolve('@iotame/builtins.channels.bluetooth'))
   }
 }

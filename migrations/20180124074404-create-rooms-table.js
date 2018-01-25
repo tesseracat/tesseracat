@@ -15,13 +15,9 @@ exports.setup = function(options, seedLink) {
 };
 
 exports.up = function(db, callback) {
-  db.createTable('devices', {
+  db.createTable('rooms', {
     id: { type: 'int', primaryKey: true, autoIncrement: true },
-    device: 'string',
-    protocol: 'string',
-    name: 'string',
-    room: 'int',
-    configuration: 'blob',
+    name: 'string'
   }, callback)
 };
 

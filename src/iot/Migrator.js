@@ -8,6 +8,6 @@ module.exports = class Migrator {
   }
 
   migrate () {
-    return this.dbm.up(12)
+    return this.dbm.up()
   }
 }
