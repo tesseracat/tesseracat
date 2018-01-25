@@ -25,17 +25,14 @@ module.exports = class HookManager {
       }
 
       let event = hook.event
-
-      if (!this.hooks[event]) {
-        this.hooks[event] = []
-      }
+      if (!this.hooks[event]) this.hooks[event] = []
 
       this.hooks[event].push(hook)
     })
   }
 
   _dispatch (event, caller, options) {
-    let filtered = _.some(this._filters(event, caller), filter => {
+    let filtered = _.some(this._filters(event), filter => {
       filter.apply(filter, [event, caller, options])
     })
 
@@ -44,16 +41,16 @@ module.exports = class HookManager {
 
     // Mutate options
     if (options) {
-      _.each(this._mutators(event, caller), mutator => {
+      _.each(this._mutators(event), mutator => {
         options = mutator.apply(mutator, [event, caller, options])
       })
     }
 
     // Perform actions
-    let actions = this._actions(event, caller)
+    let actions = this._actions(event)
     if (actions.length > 0) {
       // Try to make this asynchronous / non-blocking!
-      _.each(this._actions(event, caller), action => {
+      _.each(actions, action => {
         action.apply(action, [event, caller, options])
       })
     }
@@ -61,26 +58,27 @@ module.exports = class HookManager {
     return { filtered: false, options }
   }
 
-  _getHook (event, caller, type) {
-    if (!this.hooks[event])
-      return []
-
-    return _(this.hooks[event])
+  _getHook (event, type) {
+    return _(this.hooks)
+      .filter((hook, name) => {
+        if (name.endsWith('*')) return event.startsWith(name.replace('*', ''))
+        return event == name
+      })
+      .flatten()
       .filter(hook => hook.type == type)
-      // .filter(hook => true) Check for caller inheritance
       .map(hook => hook.method())
       .value()
   }
 
-  _filters (event, caller) {
-    return this._getHook(event, caller, 'filter')
+  _filters (event) {
+    return this._getHook(event, 'filter')
   }
 
-  _mutators (event, caller) {
-    return this._getHook(event, caller, 'mutator')
+  _mutators (event) {
+    return this._getHook(event, 'mutator')
   }
 
-  _actions (event, caller) {
-    return this._getHook(event, caller, 'action')
+  _actions (event) {
+    return this._getHook(event, 'action')
   }
 }
