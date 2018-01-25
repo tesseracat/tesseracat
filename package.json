@@ -42,7 +42,7 @@
     "@feathersjs/socketio": "^3.0.1",
     "@iotame/api": "file:../api",
     "@iotame/builtins": "file:../builtins",
-    "@iotame/interface": "file:../interface",
+    "@iotame/web": "file:../web",
     "bluebird": "^3.5.1",
     "compression": "^1.7.1",
     "cors": "^2.8.4",

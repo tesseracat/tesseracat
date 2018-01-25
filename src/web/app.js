@@ -26,7 +26,7 @@ app.use(compress());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 // Host the public folder
-app.use('/', express.static(path.resolve(process.cwd(), 'node_modules/@iotame/interface/dist')));
+app.use('/', express.static(path.resolve(process.cwd(), 'node_modules/@iotame/web/dist')));
 
 // Set up Plugins and providers
 app.configure(express.rest());
