@@ -4,6 +4,9 @@ let fs = require('fs')
 let logger = require('winston')
 let chalk = require('chalk')
 
+// Make sure we always use the project directory as the working directory.
+process.chdir(__dirname + '/..')
+
 require('yargs')
   .command('start', 'Start up iotame', (yargs) => {
     yargs.option('d', {
