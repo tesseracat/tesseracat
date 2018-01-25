@@ -50,10 +50,13 @@ module.exports = class HookManager {
     }
 
     // Perform actions
-    _.each(this._actions(event, caller), action => {
-      // TODO: Make sure actions are called asynchronously ?
-      action.apply(action, [event, caller, options])
-    })
+    let actions = this._actions(event, caller)
+    if (actions.length > 0) {
+      // Try to make this asynchronous / non-blocking!
+      _.each(this._actions(event, caller), action => {
+        action.apply(action, [event, caller, options])
+      })
+    }
 
     return { filtered: false, options }
   }

@@ -5,11 +5,10 @@ module.exports = class ExtensionManager {
   constructor (supervisor, dispatch) {
     this.dispatch = dispatch
 
-    this.loaded = {}
-
-    this.devices = {}
-    this.channels = {}
-    this.protocols = {}
+    this._devices = {}
+    this._channels = {}
+    this._protocols = {}
+    this._hooks = []
   }
 
   register () {
@@ -18,19 +17,20 @@ module.exports = class ExtensionManager {
     _.each(extensions.loaded, (name) => {
       let extension = new (require(name))()
 
-      this.devices[name] = extension.devices()
-      this.channels[name] = extension.channels()
-      this.protocols[name] = extension.protocols()
+      this._devices[name] = extension.devices()
+      this._channels[name] = extension.channels()
+      this._protocols[name] = extension.protocols()
+      _.merge(this._hooks, extension.hooks())
     })
   }
 
   hooks () {
-    return []
+    return this._hooks
   }
 
   resolve (name) {
     let [pack, type, resolving] = name.split('.')
 
-    return _.get(this[type], pack + '.' + resolving)
+    return _.get(this['_' + type], pack + '.' + resolving)
   }
 }

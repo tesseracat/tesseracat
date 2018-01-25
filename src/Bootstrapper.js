@@ -7,8 +7,9 @@ let Feathers = require('./web/app')
 let Supervisor = require('./iot/Supervisor')
 
 module.exports = class Bootstrapper {
-  constructor () {
+  constructor (development = false) {
     this.daemonized = false
+    this.development = development
   }
 
   boot () {
@@ -21,11 +22,16 @@ module.exports = class Bootstrapper {
   }
 
   daemonize () {
+    if (this.development) {
+      logger.info('Running iotame in development mode. Not daemonizing.')
+      return new Promise(resolve => { resolve() })
+    }
+
     return this._onlyRunOnce()
       .then(() => {
         logger.info('Daemonizing iotame now.')
 
-        // require('daemon')({ cwd: process.cwd() });
+        require('daemon')({ cwd: process.cwd() });
         // Everything from now on only happens in a daemonized instance.
 
         this.daemonized = true
