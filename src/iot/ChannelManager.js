@@ -9,6 +9,6 @@ module.exports = class ChannelManager {
   }
 
   open (devices) {
-    console.log(this.supervisor.resolve('@iotame/builtins.channels.bluetooth'))
+    // console.log(this.supervisor.resolve('@iotame/builtins.channels.bluetooth'))
   }
 }

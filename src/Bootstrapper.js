@@ -75,7 +75,12 @@ module.exports = class Bootstrapper {
     return new Promise((resolve, reject) => {
       let host = Feathers.get('host')
       let port = Feathers.get('port')
-      this.http = Feathers.listen(port)
+
+      try {
+        this.http = Feathers.listen(port)
+      } catch(e) { 
+        reject(e)
+      }
 
       this.http.on('listening', () => {
         logger.info('Feathers application started on http://%s:%d', host, port)
