@@ -16,6 +16,7 @@ const middleware = require('./middleware')
 const services = require('./services')
 const appHooks = require('./app.hooks')
 const channels = require('./channels')
+const sequelize = require('./sequelize')
 
 const app = express(feathers())
 
@@ -28,20 +29,24 @@ app.configure(configuration())
 app.use(cors())
 app.use(helmet())
 app.use(compress())
+
+// Enable REST and JSON body parsing
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+app.configure(rest())
+
+// Enable socket.io integration
+app.configure(socketio())
 
 // Host the public folder from @iotame/web
 app.use('/', express.static(path.resolve(process.cwd(), 'node_modules/@iotame/web/dist')))
-
-// Set up Plugins and providers
-app.configure(rest())
-app.configure(socketio())
 
 // Set up middleware, services and channels
 app.configure(middleware)
 app.configure(services)
 app.configure(channels)
+
+app.configure(sequelize)
 
 // Configure a middleware for 404s and the error handler
 app.use(express.notFound())

@@ -1,34 +1,32 @@
-'use strict';
+let Promise = require('bluebird')
 
-var dbm;
-var type;
-var seed;
+module.exports = {
+  up: (query, DataTypes) => {
+    return query.createTable('devices', {
+      id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+      },
+      device: {
+        type: DataTypes.STRING
+      },
+      protocol: {
+        type: DataTypes.STRING
+      },
+      name: {
+        type: DataTypes.STRING
+      },
+      room: {
+        type: DataTypes.INTEGER
+      },
+      configuration: {
+        type: DataTypes.BLOB
+      }
+    })
+  },
 
-/**
-  * We receive the dbmigrate dependency from dbmigrate initially.
-  * This enables us to not have to rely on NODE_PATH.
-  */
-exports.setup = function(options, seedLink) {
-  dbm = options.dbmigrate;
-  type = dbm.dataType;
-  seed = seedLink;
-};
-
-exports.up = function(db, callback) {
-  db.createTable('devices', {
-    id: { type: 'int', primaryKey: true, autoIncrement: true },
-    device: 'string',
-    protocol: 'string',
-    name: 'string',
-    room: 'int',
-    configuration: 'blob',
-  }, callback)
-};
-
-exports.down = function(db, callback) {
-  db.dropTable('devices', callback)
-};
-
-exports._meta = {
-  "version": 1
-};
+  down: (query, DataTypes) => {
+    return query.dropTable('devices')
+  }
+}

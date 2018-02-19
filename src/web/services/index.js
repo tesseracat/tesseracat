@@ -1,5 +1,7 @@
-const DevicesService = require('./Devices');
+const DevicesService = require('./Devices')
+const sequelizeService = require('feathers-sequelize')
 
-module.exports = function (app) { // eslint-disable-line no-unused-vars
+module.exports = function (app) {
+  // app.use('/api/devices', sequelizeService({ Model:  }))
   app.use('/api/devices', new DevicesService())
 }

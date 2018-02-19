@@ -93,7 +93,7 @@ module.exports = class Bootstrapper {
     if (this.supervisor) this.supervisor.stop()
     if (this.http) this.http.close()
 
-    if (error) logger.error(... error)
+    if (error) logger.error(error)
 
     if (this.daemonized) fs.unlinkSync('daemon.pid')
   }
