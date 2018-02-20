@@ -1,6 +1,7 @@
 type Device {
   id: ID!
   name: String
+  room: Room
 }
 
 type Query {
