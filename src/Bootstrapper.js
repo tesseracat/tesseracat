@@ -2,8 +2,8 @@ let Promise = require('bluebird')
 let logger = require('./Logger')
 const fs = require('fs')
 
+let Koa = require('./koa')
 let Migrator = require('./iot/Migrator')
-let Feathers = require('./web/app')
 let Supervisor = require('./iot/Supervisor')
 
 module.exports = class Bootstrapper {
@@ -17,7 +17,7 @@ module.exports = class Bootstrapper {
       .then(() => this.migrate())
       .then(() => this.bootRedis())
       .then(() => this.bootSupervisor())
-      .then(() => this.bootFeathers())
+      .then(() => this.bootKoa())
       .catch((err) => { this.tearDown(err) })
   }
 
@@ -71,21 +71,13 @@ module.exports = class Bootstrapper {
     return this.supervisor.boot()
   }
 
-  bootFeathers () {
+  bootKoa () {
     return new Promise((resolve, reject) => {
-      let host = Feathers.get('host')
-      let port = Feathers.get('port')
+      let port = 3030
+      this.http = Koa.listen(port)
 
-      try {
-        this.http = Feathers.listen(port)
-      } catch(e) { 
-        reject(e)
-      }
-
-      this.http.on('listening', () => {
-        logger.info('Feathers application started on http://%s:%d', host, port)
-        resolve()
-      })
+      logger.info('Koa application started on http://localhost:%d', port)
+      resolve()
     })
   }
 
