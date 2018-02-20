@@ -1,4 +1,4 @@
-let winston = require('winston')
+const winston = require('winston')
 
 winston.configure({
   transports: [

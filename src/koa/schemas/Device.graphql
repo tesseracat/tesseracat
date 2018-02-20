@@ -1,0 +1,9 @@
+type Device {
+  id: ID!
+  name: String
+}
+
+type Query {
+  devices: [Device]
+  device(id: ID!): Device
+}

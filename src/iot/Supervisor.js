@@ -1,12 +1,12 @@
-let Promise = require('bluebird')
+const Promise = require('bluebird')
 
-let ExtensionManager = require('./ExtensionManager')
-let ChannelManager = require('./ChannelManager')
-let DeviceManager = require('./DeviceManager')
-let HookManager = require('./HookManager')
+const ExtensionManager = require('./ExtensionManager')
+const ChannelManager = require('./ChannelManager')
+const DeviceManager = require('./DeviceManager')
+const HookManager = require('./HookManager')
 
-let Action = require('@iotame/api').Action
-let Filter = require('@iotame/api').Filter
+const Action = require('@iotame/api').Action
+const Filter = require('@iotame/api').Filter
 
 module.exports = class Supervisor {
   constructor (logger, redis) {

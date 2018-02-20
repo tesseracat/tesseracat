@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
-let fs = require('fs')
-let logger = require('winston')
-let chalk = require('chalk')
+const fs = require('fs')
+const logger = require('winston')
+const chalk = require('chalk')
 
 // Make sure we always use the project directory as the working directory.
 process.chdir(__dirname + '/..')

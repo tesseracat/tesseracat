@@ -1,17 +1,18 @@
-let Koa = require('koa')
-let KoaRouter = require('koa-router')
-let koaBody = require('koa-bodyparser')
-let { graphqlKoa, graphiqlKoa } = require('apollo-server-koa')
-
-let schema = require('./schemas/demo')
+const Koa = require('koa')
+const KoaRouter = require('koa-router')
+const koaBody = require('koa-bodyparser')
+const { graphqlKoa, graphiqlKoa } = require('apollo-server-koa')
+const { makeExecutableSchema } = require('graphql-tools')
+const context = require('../Storage')
 
 const app = new Koa();
 const router = new KoaRouter();
 const port = 3030;
 
-router.post('/graphql', koaBody(), graphqlKoa({ schema }))
-router.get('/graphql', graphqlKoa({ schema }))
+let schema = makeExecutableSchema({ typeDefs: require('./schema'), resolvers: require('./resolver') })
 
+router.post('/graphql', koaBody(), graphqlKoa({ schema, context }))
+router.get('/graphql', graphqlKoa({ schema, context }))
 router.get('/graphiql', graphiqlKoa({ endpointURL: '/graphql' }))
 
 router.get('/', (ctx, next) => {

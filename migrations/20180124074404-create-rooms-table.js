@@ -8,9 +8,12 @@ module.exports = {
         primaryKey: true,
         autoIncrement: true
       },
-      name: {
-        type: DataTypes.STRING
-      }
+
+      name: DataTypes.STRING,
+
+      // Timestamps
+      createdAt: DataTypes.DATE,
+      updatedAt: DataTypes.DATE,
     })
   },
 

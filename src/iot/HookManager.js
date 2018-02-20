@@ -1,10 +1,10 @@
-let _ = require('lodash')
-let logger = require('../Logger')
+const _ = require('lodash')
+const logger = require('../Logger')
 
-let Mutator = require('@iotame/api').Mutator
-let Action = require('@iotame/api').Action
-let Filter = require('@iotame/api').Filter
-let Hook = require('@iotame/api').Hook
+const Mutator = require('@iotame/api').Mutator
+const Action = require('@iotame/api').Action
+const Filter = require('@iotame/api').Filter
+const Hook = require('@iotame/api').Hook
 
 module.exports = class HookManager {
   constructor () {

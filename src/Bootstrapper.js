@@ -1,10 +1,10 @@
-let Promise = require('bluebird')
-let logger = require('./Logger')
+const Promise = require('bluebird')
+const logger = require('./Logger')
 const fs = require('fs')
 
-let Koa = require('./koa')
-let Migrator = require('./iot/Migrator')
-let Supervisor = require('./iot/Supervisor')
+const Koa = require('./koa')
+const Migrator = require('./iot/Migrator')
+const Supervisor = require('./iot/Supervisor')
 
 module.exports = class Bootstrapper {
   constructor (development = false) {

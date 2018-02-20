@@ -8,21 +8,16 @@ module.exports = {
         primaryKey: true,
         autoIncrement: true
       },
-      device: {
-        type: DataTypes.STRING
-      },
-      protocol: {
-        type: DataTypes.STRING
-      },
-      name: {
-        type: DataTypes.STRING
-      },
-      room: {
-        type: DataTypes.INTEGER
-      },
-      configuration: {
-        type: DataTypes.BLOB
-      }
+
+      device: DataTypes.STRING,
+      protocol: DataTypes.STRING,
+      name: DataTypes.STRING,
+      room: DataTypes.INTEGER,
+      configuration: DataTypes.BLOB,
+
+      // Timestamps
+      createdAt: DataTypes.DATE,
+      updatedAt: DataTypes.DATE,
     })
   },
 

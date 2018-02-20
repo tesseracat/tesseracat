@@ -1,16 +1,10 @@
-let Sequelize = require('sequelize')
-let logger = require('../Logger')
-let Umzug = require('umzug')
-let path = require('path')
+const { db: sequelize } = require('../Storage')
+const logger = require('../Logger')
+const Umzug = require('umzug')
+const path = require('path')
 
 module.exports = class Migrator {
   constructor () {
-    let sequelize = new Sequelize('sequelize', '', '', {
-      dialect: 'sqlite',
-      storage: path.join(__dirname, '../..', 'iotame.sqlite'),
-      logging: false
-    })
-
     this.umzug = new Umzug({
       storage: 'sequelize',
       storageOptions: {
