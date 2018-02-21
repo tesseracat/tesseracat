@@ -6,6 +6,7 @@ const KoaRouter = require('koa-router')
 const serve = require('koa-static')
 const koaJwt = require('koa-jwt')
 const jwt = require('jsonwebtoken')
+const cors = require('@koa/cors')
 
 const { makeExecutableSchema } = require('graphql-tools')
 const { graphqlKoa, graphiqlKoa } = require('apollo-server-koa')
@@ -26,6 +27,12 @@ router.get('/graphql', graphqlKoa({ schema, context }))
 if (process.env.NODE_ENV !== 'production') {
   router.get('/graphiql', graphiqlKoa({ endpointURL: '/graphql' }))
 }
+
+// For testing: Add static JWT token
+app.use(async (ctx, next) => {
+  await next()
+  ctx.set('Set-Authorization', jwt.sign({ data: 'user', hi: '123' }, secret, { expiresIn: 60 * 60 }))
+})
 
 // Add new JWT token to response if close to expiry
 app.use(async (ctx, next) => {
@@ -57,5 +64,6 @@ app.use(serve(path.resolve(__dirname, '../../node_modules/@iotame/web/dist'), {
 // Register the router
 app.use(router.routes())
 app.use(router.allowedMethods())
+app.use(cors({ exposeHeaders: ['Set-Authorization'] }))
 
 module.exports = app
