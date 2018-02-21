@@ -4,6 +4,8 @@ const jwt = require('jsonwebtoken')
 const secret = require('../jwtSecret')
 
 module.exports = async (ctx, next) => {
+  await next()
+
   let body = ctx.request.body
 
   if (!body.user || !body.password) {
@@ -17,6 +19,6 @@ module.exports = async (ctx, next) => {
   if (!verified) return ctx.throw(401, 'Unauthorized')
 
   // Attach a JWT with a lifespan of 60 minutes
-  ctx.set('Set-Authorization', jwt.sign({ user: user.name, login: user.login, jti: '123' }, secret, { expiresIn: 60 * 60 }))
-  ctx.body = JSON.stringify({ loggedin: true })
+  let token = jwt.sign({ user: user.name, login: user.login, jti: '123' }, secret, { expiresIn: 60 * 60 })
+  ctx.body = { loggedin: true, token: token }
 }
