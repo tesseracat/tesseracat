@@ -6,8 +6,10 @@ let database = new Sequelize('iotame', '', '', {
   dialect: 'sqlite',
   storage: 'iotame.sqlite',
 
-  logging: false
-  // logging: console.log
+  logging: false,
+  // logging: console.log,
+
+  operatorsAliases: false
 })
 
 let sequelize = { db: database }

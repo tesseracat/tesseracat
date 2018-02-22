@@ -37,7 +37,7 @@ require('yargs')
         process.kill(pid, 'SIGTERM')
         logger.info(chalk.green('Successfully stopped iotame.'))
       } catch (ex) {
-        logger.error(chalk.red(`Could not kill the process.`))
+        logger.error(chalk.red('Could not kill the process.'))
       }
     })
   })
