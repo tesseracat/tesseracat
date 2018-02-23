@@ -2,7 +2,6 @@ const Promise = require('bluebird')
 const logger = require('./Logger')
 const fs = require('fs')
 
-const Koa = require('./koa')
 const Migrator = require('./iot/Migrator')
 const Supervisor = require('./iot/Supervisor')
 
@@ -17,7 +16,6 @@ module.exports = class Bootstrapper {
       .then(() => this.migrate())
       .then(() => this.bootRedis())
       .then(() => this.bootSupervisor())
-      .then(() => this.bootKoa())
       .catch((err) => { this.tearDown(err) })
   }
 
@@ -71,19 +69,8 @@ module.exports = class Bootstrapper {
     return this.supervisor.boot()
   }
 
-  bootKoa () {
-    return new Promise((resolve, reject) => {
-      let port = 3030
-      this.http = Koa.listen(port)
-
-      logger.info('Koa application started on http://localhost:%d', port)
-      resolve()
-    })
-  }
-
   tearDown (error) {
     if (this.supervisor) this.supervisor.stop()
-    if (this.http) this.http.close()
 
     if (error) logger.error(error)
 

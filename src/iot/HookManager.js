@@ -12,8 +12,8 @@ module.exports = class HookManager {
   }
 
   dispatcher () {
-    return (event, caller, options) => {
-      return this._dispatch(event, caller, options)
+    return (event, options) => {
+      return this._dispatch(event, options)
     }
   }
 
@@ -31,32 +31,44 @@ module.exports = class HookManager {
     })
   }
 
-  _dispatch (event, caller, options) {
+  async _dispatch (event, options) {
     let hooks = this._getHooks(event)
 
-    let filtered = _.some(hooks.filter, filter => {
-      filter.apply(filter, [event, caller, options])
-    })
+    let filtered = false
+    try {
+      for (let filter of hooks.filter) {
+        let response = await filter.call(filter, event, options)
 
-    // Return if event was filtered
-    if (filtered) return { filtered: true, options }
+        if (!response) {
+          throw new Error('')
+        }
+      }
+    } catch (error) {
+      throw new Error(error)
+    }
 
     // Mutate options
     if (options) {
-      _.each(hooks.mutator, mutator => {
-        options = mutator.apply(mutator, [event, caller, options])
-      })
+      for (let mutator of hooks.mutator) {
+        console.log(mutator)
+        options = await mutator.call(mutator, event, options)
+        console.log(options)
+      }
     }
 
+    // console.log(options)
+
+    /*
     // Perform actions
     if (hooks.action.length > 0) {
       // Try to make this asynchronous / non-blocking!
       _.each(hooks.action, action => {
-        action.apply(action, [event, caller, options])
+        action.apply(action, [event, options])
       })
     }
+    */
 
-    return { filtered: false, options }
+    return options
   }
 
   _getHooks (event, type) {

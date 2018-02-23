@@ -11,10 +11,18 @@
     "@iotame/api" "file:../../../Library/Caches/Yarn/v1/npm-@iotame/api"
     noble "^1.9.0"
 
+"@iotame/web@../web":
+  version "0.0.2"
+  dependencies:
+    vue "^2.5.2"
+    vue-js-modal "^1.3.10"
+    vue-router "^3.0.1"
+
 "@iotame/web@file:../web":
   version "0.0.2"
   dependencies:
     vue "^2.5.2"
+    vue-js-modal "^1.3.10"
     vue-router "^3.0.1"
 
 "@koa/cors@^2.2.1":
@@ -2424,6 +2432,10 @@ verror@1.10.0:
     assert-plus "^1.0.0"
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
+
+vue-js-modal@^1.3.10:
+  version "1.3.11"
+  resolved "https://registry.yarnpkg.com/vue-js-modal/-/vue-js-modal-1.3.11.tgz#a65a07b8eff9a03bcc76856f8b796972c75a3014"
 
 vue-router@^3.0.1:
   version "3.0.1"

@@ -11,7 +11,6 @@ const { makeExecutableSchema } = require('graphql-tools')
 const { graphqlKoa, graphiqlKoa } = require('apollo-server-koa')
 
 const router = new KoaRouter()
-const port = 3030;
 const app = new Koa()
 
 // Generate a context and GraphQL schema

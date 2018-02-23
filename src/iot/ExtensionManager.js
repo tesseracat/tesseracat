@@ -15,7 +15,7 @@ module.exports = class ExtensionManager {
     let extensions = require(path.resolve('config/extensions.json'))
 
     _.each(extensions.loaded, (name) => {
-      let extension = new (require(name))()
+      let extension = new (require(name))(this.dispatch)
 
       this._devices[name] = extension.devices()
       this._channels[name] = extension.channels()
