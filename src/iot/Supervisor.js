@@ -62,8 +62,6 @@ module.exports = class Supervisor {
   _generalHooks () {
     return [
       (new Mutator()).on('iotame.supervisor.ready').do((e, o) => {
-        console.log(e, o)
-        o.sub = true
         return o
       })
     ]

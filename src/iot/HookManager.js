@@ -50,9 +50,7 @@ module.exports = class HookManager {
     // Mutate options
     if (options) {
       for (let mutator of hooks.mutator) {
-        console.log(mutator)
         options = await mutator.call(mutator, event, options)
-        console.log(options)
       }
     }
 
