@@ -42,7 +42,7 @@ app.use(koaBody())
 app.use(koaJwt({ passthrough: true }))
 
 // Serve static files from @iotame/web
-app.use(serve(path.resolve(getInstalledPathSync('@iotame/web', { local: true }), 'dist'), {
+app.use(serve(path.resolve(getInstalledPathSync('@iotame/web', {local: true}), 'dist'), {
   defer: true,
   gzip: true
 }))
