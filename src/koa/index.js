@@ -6,6 +6,7 @@ const KoaRouter = require('koa-router')
 const serve = require('koa-static')
 const koaJwt = require('koa-jwt')
 const cors = require('@koa/cors')
+const { getInstalledPathSync } = require('get-installed-path')
 
 const { makeExecutableSchema } = require('graphql-tools')
 const { graphqlKoa, graphiqlKoa } = require('apollo-server-koa')
@@ -41,7 +42,8 @@ app.use(koaBody())
 app.use(koaJwt({ passthrough: true }))
 
 // Serve static files from @iotame/web
-app.use(serve(path.resolve(__dirname, '../../node_modules/@iotame/web/dist'), {
+console.log(path.resolve(getInstalledPathSync('@iotame/web', { local: true }), 'dist'))
+app.use(serve(path.resolve(getInstalledPathSync('@iotame/web', { local: true }), 'dist'), {
   defer: true,
   gzip: true
 }))
