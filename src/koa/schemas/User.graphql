@@ -1,0 +1,17 @@
+type User {
+  id: ID!
+  name: String
+  login: String
+  accessToken: String
+}
+
+input AuthenticationInput {
+  username: String!
+  password: String!
+}
+
+type Mutation {
+  login(input: AuthenticationInput!): User
+  createUser(input: AuthenticationInput!, registrationToken: String): User
+  logout(token: String): User
+}

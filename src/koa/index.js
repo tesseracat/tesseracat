@@ -15,17 +15,21 @@ const app = new Koa()
 
 // Generate a context and GraphQL schema
 const context = require('../Storage')
-let schema = makeExecutableSchema({ typeDefs: require('./schema'), resolvers: require('./resolver') })
+const schema = makeExecutableSchema({ typeDefs: require('./schema'), resolvers: require('./resolver') })
+
+const formatError = (error) => ({
+  message: error.message,
+  state: error.originalError && error.originalError.state,
+  locations: error.locations,
+  path: error.path
+})
 
 // Serve GraphQL queries, migrations and graphiql debugger
-router.post('/graphql', graphqlKoa({ schema, context }))
-router.get('/graphql', graphqlKoa({ schema, context }))
+router.post('/graphql', graphqlKoa({ schema, context, formatError }))
+router.get('/graphql', graphqlKoa({ schema, context, formatError }))
 if (process.env.NODE_ENV !== 'production') {
   router.get('/graphiql', graphiqlKoa({ endpointURL: '/graphql' }))
 }
-
-// Login route
-router.post('/login', require('./middleware/login'))
 
 // Add new JWT token to response if close to expiry
 app.use(require('./middleware/refreshJWT'))
