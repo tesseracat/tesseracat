@@ -1,5 +1,6 @@
 const _ = require('lodash')
 const logger = require('../Logger')
+const Promise = require('bluebird')
 
 const Mutator = require('@iotame/api').Mutator
 const Action = require('@iotame/api').Action
@@ -39,7 +40,7 @@ module.exports = class HookManager {
       for (let filter of hooks.filter) {
         let response = await filter.call(filter, event, options)
 
-        if (!response) {
+        if (response === false) {
           throw new Error('')
         }
       }
@@ -50,21 +51,14 @@ module.exports = class HookManager {
     // Mutate options
     if (options) {
       for (let mutator of hooks.mutator) {
-        options = await mutator.call(mutator, event, options)
+        options = mutator.call(mutator, event, options)
       }
     }
 
-    // console.log(options)
-
-    /*
     // Perform actions
-    if (hooks.action.length > 0) {
-      // Try to make this asynchronous / non-blocking!
-      _.each(hooks.action, action => {
-        action.apply(action, [event, options])
-      })
+    for (let action of hooks.action) {
+      action.call(action, event, options)
     }
-    */
 
     return options
   }

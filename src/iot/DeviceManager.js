@@ -4,7 +4,7 @@ module.exports = class DeviceManager {
   }
 
   greet () {
-    // this.dispatch('devicemanager.greeting')
+    this.dispatch('devicemanager.greeting', { add: true })
   }
 
   list () {

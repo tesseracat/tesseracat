@@ -7,7 +7,7 @@ const HookManager = require('./HookManager')
 const logger = require('../Logger')
 const Koa = require('../koa')
 
-const { Mutator, Filter } = require('@iotame/api')
+const { Mutator, Filter, Action } = require('@iotame/api')
 
 module.exports = class Supervisor {
   constructor (logger, redis) {
@@ -60,10 +60,6 @@ module.exports = class Supervisor {
   }
 
   _generalHooks () {
-    return [
-      (new Mutator()).on('iotame.supervisor.ready').do((e, o) => {
-        return o
-      })
-    ]
+    return []
   }
 }
