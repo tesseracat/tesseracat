@@ -32,7 +32,8 @@
     "test": "yarn run eslint && yarn run mocha",
     "eslint": "eslint src/. test/. --config .eslintrc.json",
     "start": "iotame start --develop",
-    "mocha": "mocha test/ --recursive --exit"
+    "mocha": "mocha test/ --recursive --exit",
+    "postinstall": "node ./src/postinstall.js"
   },
   "dependencies": {
     "@iotame/api": ">=0.0.1",

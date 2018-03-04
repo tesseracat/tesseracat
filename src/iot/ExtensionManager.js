@@ -1,3 +1,4 @@
+const { homedir } = require('os')
 const path = require('path')
 const _ = require('lodash')
 
@@ -15,7 +16,7 @@ module.exports = class ExtensionManager {
     let extensions = require(path.resolve('config/extensions.json'))
 
     _.each(extensions.loaded, (name) => {
-      let extension = new (require(name))(this.dispatch)
+      let extension = this.require(name)
 
       this._devices[name] = extension.devices()
       this._channels[name] = extension.channels()
@@ -32,5 +33,10 @@ module.exports = class ExtensionManager {
     let [pack, type, resolving] = name.split('.')
 
     return _.get(this['_' + type], pack + '.' + resolving)
+  }
+
+  require(extension) {
+    let extensionPath = path.resolve(homedir(), '.iotame_extensions/node_modules', extension)
+    return new (require(extensionPath))(this.dispatch)
   }
 }

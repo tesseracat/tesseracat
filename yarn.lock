@@ -2,15 +2,9 @@
 # yarn lockfile v1
 
 
-"@iotame/api@0.0.1", "@iotame/api@>=0.0.1":
+"@iotame/api@>=0.0.1":
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/@iotame/api/-/api-0.0.1.tgz#f23af85c5096e7713d4396010c1599fb8b2b92d4"
-
-"@iotame/builtins@>=0.0.1-b":
-  version "0.0.1-b"
-  resolved "https://registry.yarnpkg.com/@iotame/builtins/-/builtins-0.0.1-b.tgz#90b9e17dbb7bde79c077de6df3d9c9517b168f97"
-  dependencies:
-    "@iotame/api" "0.0.1"
 
 "@iotame/web@>=0.0.3":
   version "0.0.3"

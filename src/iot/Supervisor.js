@@ -12,6 +12,7 @@ const { Mutator, Filter, Action } = require('@iotame/api')
 module.exports = class Supervisor {
   constructor (logger, redis) {
     this.redis = redis
+    this.state = {}
   }
 
   async boot () {
