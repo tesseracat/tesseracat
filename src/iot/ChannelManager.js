@@ -1,9 +1,9 @@
 const _ = require('lodash')
 
 module.exports = class ChannelManager {
-  constructor (supervisor, dispatch) {
+  constructor (supervisor) {
     this.supervisor = supervisor
-    this.dispatch = dispatch
+    this.dispatch = supervisor.dispatch
 
     this.channels = []
   }

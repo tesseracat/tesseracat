@@ -1,6 +1,7 @@
 module.exports = class DeviceManager {
-  constructor (supervisor, dispatch) {
-    this.dispatch = dispatch
+  constructor (supervisor) {
+    this.app = supervisor
+    this.dispatch = supervisor.dispatch
   }
 
   greet () {

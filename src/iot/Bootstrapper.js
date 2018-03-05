@@ -1,9 +1,9 @@
 const Promise = require('bluebird')
-const logger = require('./Logger')
 const fs = require('fs')
 
-const Migrator = require('./iot/Migrator')
-const Supervisor = require('./iot/Supervisor')
+const Migrator = require('./Migrator')
+const supervisor = require('../app')
+const logger = supervisor.logger
 
 module.exports = class Bootstrapper {
   constructor (development = false) {
@@ -29,7 +29,7 @@ module.exports = class Bootstrapper {
       .then(() => {
         logger.info('Daemonizing iotame now.')
 
-        require('daemon')({ cwd: process.cwd() });
+        require('daemon')({ cwd: process.cwd() })
         // Everything from now on only happens in a daemonized instance.
 
         this.daemonized = true
@@ -65,7 +65,9 @@ module.exports = class Bootstrapper {
   }
 
   bootSupervisor () {
-    this.supervisor = new Supervisor(logger, this.redis)
+    this.supervisor = supervisor
+    this.supervisor.redis = this.redis
+
     return this.supervisor.boot()
   }
 

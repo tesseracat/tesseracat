@@ -7,9 +7,9 @@ const Action = require('@iotame/api').Action
 const Filter = require('@iotame/api').Filter
 const Hook = require('@iotame/api').Hook
 
-module.exports = class HookManager {
+module.exports = class HookDispatcher {
   constructor () {
-    this.hooks = {};
+    this.hooks = {}
   }
 
   dispatcher () {

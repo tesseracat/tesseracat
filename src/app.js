@@ -1,41 +1,41 @@
 const Promise = require('bluebird')
 
-const ExtensionManager = require('./ExtensionManager')
-const ChannelManager = require('./ChannelManager')
-const DeviceManager = require('./DeviceManager')
-const HookManager = require('./HookManager')
-const logger = require('../Logger')
-const Koa = require('../koa')
+const ExtensionManager = require('./iot/ExtensionManager')
+const ChannelManager = require('./iot/ChannelManager')
+const DeviceManager = require('./iot/DeviceManager')
+const HookDispatcher = require('./iot/HookDispatcher')
+const logger = require('./Logger')
+const Koa = require('./koa')
 
 const { Mutator, Filter, Action } = require('@iotame/api')
 
-module.exports = class Supervisor {
-  constructor (logger, redis) {
-    this.redis = redis
+class Container {
+  constructor (logger) {
+    this.logger = logger
     this.state = {}
   }
 
   async boot () {
     // Generate a hook manager and receive its dispatcher function
-    this.hooks = new HookManager(this)
-    let dispatch = this.hooks.dispatcher()
+    this.hooks = new HookDispatcher()
+    this.dispatch = this.hooks.dispatcher()
 
     this.hooks.add(... this._channelHandlers())   // Add channel handler hooks
     this.hooks.add(... this._generalHooks())      // Add general hooks
 
     // Generate an extension manager and register it
-    this.extensions = new ExtensionManager(this, dispatch)
+    this.extensions = new ExtensionManager(this)
     this.extensions.register()
 
     // Add extension hooks
     this.hooks.add(... this.extensions.hooks())
 
     // Generate a devices manager and boot it up
-    this.devices = new DeviceManager(this, dispatch)
+    this.devices = new DeviceManager(this)
     this.devices.greet()
 
     // Generate a channel manager and open channels needed by our devices
-    this.channels = new ChannelManager(this, dispatch)
+    this.channels = new ChannelManager(this)
     this.channels.open(this.devices.list())
 
     const port = 3030
@@ -45,7 +45,9 @@ module.exports = class Supervisor {
 
     this.ready = true
 
-    return dispatch('iotame.supervisor.ready', { add: false })
+    console.log(this.resolve('@iotame/builtins:devices.thermostat'))
+
+    return this.dispatch('iotame.supervisor.ready')
   }
 
   stop () {
@@ -64,3 +66,6 @@ module.exports = class Supervisor {
     return []
   }
 }
+
+const container = new Container(logger)
+module.exports = container
