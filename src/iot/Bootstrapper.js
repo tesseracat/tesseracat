@@ -1,4 +1,5 @@
 const Promise = require('bluebird')
+const chalk = require('chalk')
 const fs = require('fs')
 
 const Migrator = require('./Migrator')
@@ -27,17 +28,38 @@ module.exports = class Bootstrapper {
 
     return this._onlyRunOnce()
       .then(() => {
-        logger.info('Daemonizing iotame now.')
+        // Continue if already deamonized
+        if (process.env.__daemon) {
+          this.daemonized = true
 
-        require('daemon')({ cwd: process.cwd() })
-        // Everything from now on only happens in a daemonized instance.
+          logger.info('Successfully daemonized with PID %s.', process.pid)
+          fs.writeFileSync('daemon.pid', process.pid)
 
-        this.daemonized = true
-        logger.info('Successfully daemonized with PID %s.', process.pid)
-        fs.writeFileSync('daemon.pid', process.pid)
+          process.on('exit', () => { this.tearDown() })
+          process.on('SIGTERM', () => {
+            logger.info('Received SIGTERM')
+            this.tearDown()
+          })
 
-        process.on('exit', () => { this.tearDown() })
-        process.on('SIGTERM', () => { this.tearDown() })
+          return
+        }
+
+        // Daemonize the process
+        let args = [].concat(process.argv)
+        args.shift()
+        let script = args.shift()
+
+        let opt = { cwd: process.cwd() }
+        let env = opt.env || process.env
+
+        env.__daemon = true
+
+        const daemon = require('daemon').daemon(script, args, opt)
+        if (daemon) {
+          logger.info(chalk.green('Daemonized with PID %s'), daemon.pid)
+        }
+
+        return process.exit()
       })
   }
 
@@ -47,7 +69,10 @@ module.exports = class Bootstrapper {
         // Keep in mind that we're doing it the other way around.
         // If daemon.pid can't be read, we continue, otherwise we reject.
 
-        err ? resolve() : reject(['iotame is already running with PID %s.', data])
+        err ? resolve() : reject([
+          chalk.red('iotame is already running with PID ' + data + '.'),
+          chalk.yellow('Try stopping it first with "iotame stop".')
+        ])
       })
     })
   }
@@ -71,10 +96,17 @@ module.exports = class Bootstrapper {
     return this.supervisor.boot()
   }
 
-  tearDown (error) {
+  tearDown (errors) {
     if (this.supervisor) this.supervisor.stop()
 
-    if (error) logger.error(error)
+    // Convert errors to array
+    if (!Array.isArray(errors)) {
+      errors = [errors]
+    }
+
+    for (let err of errors) {
+      logger.error(err)
+    }
 
     if (this.daemonized) fs.unlinkSync('daemon.pid')
   }

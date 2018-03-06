@@ -13,14 +13,21 @@ exports.handler = function (argv) {
       return
     }
 
-    pid = pid.trim()
+    pid = parseInt(pid.trim())
 
     try {
       logger.info(`Trying to stop iotame with PID ${pid}.`)
       process.kill(pid, 'SIGTERM')
-      logger.info(chalk.green('Successfully stopped iotame.'))
+      logger.info(chalk.green('Sent SIGTERM to iotame.'))
     } catch (ex) {
-      logger.error(chalk.red('Could not kill the process.'))
+      logger.error(chalk.red('Could not send SIGTERM.'))
+    }
+
+    try {
+      process.kill(pid, 0)
+      logger.info(chalk.green('iotame successfully stopped.'))
+    } catch (ex) {
+      logger.info(chalk.red('iotame was not stopped. Please try to stop it manually.'))
     }
   })
 }

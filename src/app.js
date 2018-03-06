@@ -52,6 +52,7 @@ class Container {
 
   stop () {
     // Tear down everything important
+    this.http.close()
   }
 
   resolve (name) {
