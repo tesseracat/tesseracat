@@ -42,7 +42,7 @@ module.exports = class ExtensionManager {
   }
 
   require(extension) {
-    let extensionPath = path.resolve(homedir(), '.iotame_extensions/node_modules', extension)
+    let extensionPath = path.resolve(homedir(), '.iotame/extensions/node_modules', extension)
     return new (require(extensionPath))(this.dispatch)
   }
 }

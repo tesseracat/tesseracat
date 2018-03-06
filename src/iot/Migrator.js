@@ -17,7 +17,7 @@ module.exports = class Migrator {
           sequelize.constructor,
           () => { throw new Error('Migration tried to use "done" callbacks. Return promises instead.')}
         ],
-        path: './migrations',
+        path: path.resolve(__dirname, '../../migrations'),
         pattern: /\.js$/
       }
     })
