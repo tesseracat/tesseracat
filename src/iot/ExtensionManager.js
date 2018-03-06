@@ -1,4 +1,3 @@
-const { homedir } = require('os')
 const path = require('path')
 const _ = require('lodash')
 
@@ -42,7 +41,7 @@ module.exports = class ExtensionManager {
   }
 
   require(extension) {
-    let extensionPath = path.resolve(homedir(), '.iotame/extensions/node_modules', extension)
+    let extensionPath = path.resolve(process.cwd(), 'extensions/node_modules', extension)
     return new (require(extensionPath))(this.dispatch)
   }
 }
