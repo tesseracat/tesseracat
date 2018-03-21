@@ -1,0 +1,13 @@
+type DeviceType {
+  id: String
+}
+
+type Protocol {
+  id: String,
+  supported: [DeviceType]
+}
+
+type Query {
+  deviceTypes: [DeviceType]
+  protocols: [Protocol]
+}
