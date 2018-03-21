@@ -40,8 +40,13 @@ module.exports = class ExtensionManager {
     return selection[resolving]
   }
 
-  require(extension) {
+  require (extension) {
     let extensionPath = path.resolve(process.cwd(), 'extensions/node_modules', extension)
     return new (require(extensionPath))(this.dispatch)
+  }
+
+  extensionsScript (ctx) {
+    ctx.set('Content-Type', 'application/javascript');
+    ctx.body = 'console.log("Extension script loaded.");';
   }
 }

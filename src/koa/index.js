@@ -52,4 +52,4 @@ app.use(router.routes())
 app.use(router.allowedMethods())
 app.use(cors({ exposeHeaders: ['Set-Authorization'] }))
 
-module.exports = app
+module.exports = { app, router }

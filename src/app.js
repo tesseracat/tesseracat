@@ -5,7 +5,7 @@ const ChannelManager = require('./iot/ChannelManager')
 const DeviceManager = require('./iot/DeviceManager')
 const HookDispatcher = require('./iot/HookDispatcher')
 const logger = require('./Logger')
-const Koa = require('./koa')
+const { app: Koa, router: Router } = require('./koa')
 
 const { Mutator, Filter, Action } = require('@iotame/api')
 
@@ -38,6 +38,8 @@ class Container {
     this.channels = new ChannelManager(this)
     this.channels.open(this.devices.list())
 
+    Router.get('/extensions.js', this.extensions.extensionsScript)
+
     const port = 3030
     this.http = Koa.listen(port)
     logger.info('Koa application started on http://localhost:%d', port)
@@ -45,13 +47,12 @@ class Container {
 
     this.ready = true
 
-    console.log(this.resolve('@iotame/builtins:devices.thermostat'))
+    // console.log(this.resolve('@iotame/builtins:devices.thermostat'))
 
     return this.dispatch('iotame.supervisor.ready')
   }
 
   stop () {
-    // Tear down everything important
     this.http.close()
   }
 

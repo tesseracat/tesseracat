@@ -36,16 +36,11 @@ module.exports = class HookDispatcher {
     let hooks = this._getHooks(event)
 
     let filtered = false
-    try {
-      for (let filter of hooks.filter) {
-        let response = await filter.call(filter, event, options)
-
-        if (response === false) {
-          throw new Error('')
-        }
-      }
-    } catch (error) {
-      throw new Error(error)
+    for (let filter of hooks.filter) {
+      console.log(filter.call(filter, event, options))
+      filter.call(filter, event, options).catch((error) => {
+        throw new Error(error)
+      })
     }
 
     // Mutate options
