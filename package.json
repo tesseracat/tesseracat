@@ -55,7 +55,7 @@
     "lodash": "^4.17.4",
     "merge-graphql-schemas": "^1.4.0",
     "sequelize": "^4.33.4",
-    "sqlite3": "^3.1.13",
+    "sqlite3": "^4.0.0",
     "umzug": "^2.1.0",
     "winston": "^2.4.0",
     "yargs": "^11.0.0"
