@@ -25,10 +25,11 @@ module.exports = class HookDispatcher {
         return
       }
 
-      let event = hook.event
-      if (!this.hooks[event]) this.hooks[event] = []
+      hook.events.forEach(event => {
+        if (!this.hooks[event]) this.hooks[event] = []
 
-      this.hooks[event].push(hook)
+        this.hooks[event].push(hook)
+      })
     })
   }
 
