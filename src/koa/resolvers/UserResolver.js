@@ -11,7 +11,7 @@ module.exports = {
   Mutation: {
     async login (obj, args, context) {
       const { username, password } = args.input
-      
+
       let user = await context.user.findOne({ where: { login: username }, raw: true })
       if (!user) {
         throw new ValidationError({key: 'username', message: 'There are no users with this login name.'})
@@ -23,7 +23,7 @@ module.exports = {
       }
 
       user.accessToken = jwt.sign({ user: user.name, login: user.login, jti: '123' }, secret, { expiresIn: 60 * 60 })
-      
+
       return user
     },
 
@@ -65,6 +65,12 @@ module.exports = {
       if (registrationToken) await unlink('register.token')
 
       return user
+    }
+  },
+
+  Query: {
+    users (obj, args, context) {
+      return context.user.findAll({ raw: true })
     }
   }
 }

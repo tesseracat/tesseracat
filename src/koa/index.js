@@ -47,6 +47,11 @@ app.use(serve(path.resolve(getInstalledPathSync('@iotame/web', { paths: process.
   gzip: true
 }))
 
+router.get('/dispatcher', () => {
+  const app = require('../app')
+  app.dispatch('device.registered')
+})
+
 // Register the router
 app.use(router.routes())
 app.use(router.allowedMethods())

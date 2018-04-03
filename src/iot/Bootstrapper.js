@@ -97,7 +97,6 @@ module.exports = class Bootstrapper {
   }
 
   tearDown (errors) {
-    if (this.supervisor) this.supervisor.stop()
 
     // Convert errors to array
     if (!Array.isArray(errors)) {
@@ -108,6 +107,7 @@ module.exports = class Bootstrapper {
       logger.error(err)
     }
 
+    if (this.supervisor) this.supervisor.stop()
     if (this.daemonized) fs.unlinkSync('daemon.pid')
   }
 }

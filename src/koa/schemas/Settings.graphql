@@ -1,0 +1,8 @@
+type Settings {
+  iotameHome: String,
+  daemonized: Boolean
+}
+
+type Query {
+  settings: Settings
+}

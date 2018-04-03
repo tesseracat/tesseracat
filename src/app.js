@@ -32,11 +32,10 @@ class Container {
 
     // Generate a devices manager and boot it up
     this.devices = new DeviceManager(this)
-    this.devices.greet()
+    this.devices.reload()
 
     // Generate a channel manager and open channels needed by our devices
     this.channels = new ChannelManager(this)
-    this.channels.open(this.devices.list())
 
     Router.get('/extensions.js', this.extensions.extensionsScript)
 
@@ -65,7 +64,12 @@ class Container {
   }
 
   _generalHooks () {
-    return []
+    return [
+      // Reload devices in device manager when a new device was registered
+      (new Action()).on('device.registered').do(() => { this.devices.reload() }),
+
+      // ...
+    ]
   }
 }
 

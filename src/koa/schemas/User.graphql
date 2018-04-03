@@ -15,3 +15,7 @@ type Mutation {
   createUser(input: AuthenticationInput!, registrationToken: String): User
   logout(token: String): User
 }
+
+type Query {
+  users: [User]
+}
