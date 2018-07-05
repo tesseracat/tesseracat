@@ -38,7 +38,6 @@ module.exports = class HookDispatcher {
 
     let filtered = false
     for (let filter of hooks.filter) {
-      console.log(filter.call(filter, event, options))
       filter.call(filter, event, options).catch((error) => {
         throw new Error(error)
       })

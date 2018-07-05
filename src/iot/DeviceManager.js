@@ -6,7 +6,6 @@ module.exports = class DeviceManager {
   }
 
   reload () {
-    console.log('Loading devices')
     this.devices = []
   }
 

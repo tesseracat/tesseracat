@@ -2,21 +2,20 @@ let Promise = require('bluebird')
 
 module.exports = {
   up: (query, DataTypes) => {
-    return query.createTable('rooms', {
+    return query.createTable('status_update', {
       id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true
       },
-      name: DataTypes.STRING,
+      deviceID: DataTypes.INTEGER,
+      state: DataTypes.BLOB,
 
-      // Timestamps
-      createdAt: DataTypes.DATE,
-      updatedAt: DataTypes.DATE,
+      createdAt: DataTypes.DATE
     })
   },
 
   down: (query, DataTypes) => {
-    return query.dropTable('rooms')
+    return query.dropTable('status_update')
   }
 }

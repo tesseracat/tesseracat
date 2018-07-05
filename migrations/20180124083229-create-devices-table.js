@@ -9,11 +9,11 @@ module.exports = {
         autoIncrement: true
       },
 
-      device: DataTypes.STRING,
+      type: DataTypes.STRING,
       protocol: DataTypes.STRING,
       name: DataTypes.STRING,
       room: DataTypes.INTEGER,
-      configuration: DataTypes.BLOB,
+      configuration: DataTypes.BLOB
 
       // Timestamps
       createdAt: DataTypes.DATE,

@@ -36,6 +36,7 @@ class Container {
 
     // Generate a channel manager and open channels needed by our devices
     this.channels = new ChannelManager(this)
+    this.channels.open()
 
     Router.get('/extensions.js', this.extensions.extensionsScript)
 

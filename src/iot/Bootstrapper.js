@@ -97,7 +97,6 @@ module.exports = class Bootstrapper {
   }
 
   tearDown (errors) {
-
     // Convert errors to array
     if (!Array.isArray(errors)) {
       errors = [errors]
