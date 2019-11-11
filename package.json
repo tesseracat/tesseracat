@@ -66,6 +66,6 @@
     "eslint-plugin-import": "2.9.0",
     "eslint-plugin-node": "5.2.1",
     "request": "2.85.0",
-    "request-promise": "4.2.2"
+    "request-promise": "4.2.5"
   }
 }
