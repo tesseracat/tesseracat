@@ -7,8 +7,9 @@
     "iotame": "bin/run"
   },
   "scripts": {
-    "test": "cross-env TS_NODE_PROJECT=test/tsconfig.json nyc --reporter=lcov ava",
-    "coverage": "codecov",
+    "test": "cross-env TS_NODE_PROJECT=test/tsconfig.json ava",
+    "coverage:test": "cross-env TS_NODE_PROJECT=test/tsconfig.json nyc ava",
+    "coverage:upload": "codecov",
     "build": "tsc",
     "watch:test": "cross-env TS_NODE_PROJECT=test/tsconfig.json ava --watch",
     "watch:build": "tsc --watch"
@@ -37,6 +38,11 @@
       "ts-node/register",
       "tsconfig-paths/register"
     ]
+  },
+  "nyc": {
+    "all": true,
+    "include": ["src/**"],
+    "reporter": ["text", "lcov"]
   },
   "homepage": "https://github.com/iotame/iotame#readme",
   "dependencies": {
