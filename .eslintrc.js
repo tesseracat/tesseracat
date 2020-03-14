@@ -4,15 +4,16 @@ module.exports = {
     browser: true,
     node: true,
   },
-  parserOptions: {
-    parser: 'babel-eslint',
-  },
+  parser: "@typescript-eslint/parser",
+  plugins: ["@typescript-eslint"],
   extends: [
-    '@nuxtjs',
-    'plugin:nuxt/recommended',
+    'plugin:@typescript-eslint/recommended',
     'plugin:ava/recommended',
     '@iotame',
   ],
   rules: {
+    '@typescript-eslint/ban-ts-ignore': 'off',
+    '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/no-var-requires': 'off',
   },
 }

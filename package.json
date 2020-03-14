@@ -10,6 +10,7 @@
     "test": "cross-env TS_NODE_PROJECT=test/tsconfig.json ava",
     "coverage:test": "cross-env TS_NODE_PROJECT=test/tsconfig.json nyc ava",
     "coverage:upload": "codecov",
+    "lint": "eslint --ext ts,js --ignore-pattern dist .",
     "build": "tsc",
     "watch:test": "cross-env TS_NODE_PROJECT=test/tsconfig.json ava --watch",
     "watch:build": "tsc --watch"
@@ -41,8 +42,13 @@
   },
   "nyc": {
     "all": true,
-    "include": ["src/**"],
-    "reporter": ["text", "lcov"]
+    "include": [
+      "src/**"
+    ],
+    "reporter": [
+      "text",
+      "lcov"
+    ]
   },
   "homepage": "https://github.com/iotame/iotame#readme",
   "dependencies": {
@@ -57,7 +63,7 @@
     "oclif": "^1.15.2"
   },
   "devDependencies": {
-    "@iotame/eslint-config": "^1.0.0",
+    "@iotame/eslint-config": "^1.0.2",
     "@nuxt/types": "^0.6.4",
     "@types/koa": "^2.11.2",
     "@types/koa-bodyparser": "^4.3.0",
@@ -69,6 +75,8 @@
     "@types/node": "^13.9.1",
     "@types/rmfr": "^2.0.0",
     "@types/sinon": "^7.5.2",
+    "@typescript-eslint/eslint-plugin": "^2.23.0",
+    "@typescript-eslint/parser": "^2.23.0",
     "ava": "^3.5.0",
     "codecov": "^3.6.5",
     "cross-env": "^7.0.2",

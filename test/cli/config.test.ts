@@ -3,7 +3,9 @@ import sinon from 'sinon'
 import Command from '@lib/cli'
 import Config from '@config'
 
-test.afterEach.always(t => sinon.restore())
+test.afterEach.always(() => {
+  sinon.restore()
+})
 
 test.serial('CLI initializes the configuration', async t => {
   const spy = sinon.spy(Config, 'initializeFromOclif')

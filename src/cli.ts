@@ -22,7 +22,7 @@ class OclifExampleSingleTs extends Command {
     home: flags.string({ description: '' }),
   }
 
-  async run () {
+  async run (): Promise<void> {
     const { flags } = this.parse(OclifExampleSingleTs)
 
     Config.initializeFromOclif(flags)
