@@ -7,7 +7,7 @@ class IotameConfig {
 
   initializeFromOclif (flags: Partial<OutputFlags<typeof Command.flags>>): void {
     if (flags.home) {
-      this.homeDir = flags.home;
+      this.homeDir = flags.home
     }
   }
 }
