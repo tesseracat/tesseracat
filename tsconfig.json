@@ -1,33 +1,32 @@
 {
   "compilerOptions": {
-    "target": "es2018",
-    "module": "esnext",
+    "target": "es2015",
     "moduleResolution": "node",
     "lib": [
       "esnext",
       "esnext.asynciterable",
       "dom"
     ],
+    "declaration": true,
     "esModuleInterop": true,
-    "allowJs": true,
-    "sourceMap": true,
+    "importHelpers": true,
     "strict": true,
-    "noEmit": true,
+    "outDir": "./dist",
     "baseUrl": ".",
     "paths": {
-      "~/*": [
-        "./*"
-      ],
-      "@/*": [
-        "./*"
-      ]
+      "@config": ["src/config/index"]
     },
+    "rootDirs": [
+      "./src"
+    ],
     "types": [
+      "node",
       "@types/node",
       "@nuxt/types"
     ]
   },
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "test"
   ]
 }

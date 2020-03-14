@@ -2,9 +2,16 @@
   "name": "iotame",
   "version": "0.1.0",
   "description": "The iotame Home Automation Software",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "bin": {
+    "iotame": "bin/run"
+  },
   "scripts": {
-    "test": "ava"
+    "test": "cross-env TS_NODE_PROJECT=test/tsconfig.json nyc --reporter=lcov ava",
+    "coverage": "codecov",
+    "build": "tsc",
+    "watch:test": "cross-env TS_NODE_PROJECT=test/tsconfig.json ava --watch",
+    "watch:build": "tsc --watch"
   },
   "repository": {
     "type": "git",
@@ -15,6 +22,22 @@
   "bugs": {
     "url": "https://github.com/iotame/iotame/issues"
   },
+  "files": [
+    "/bin",
+    "/dist"
+  ],
+  "ava": {
+    "files": [
+      "test/**/*.test*"
+    ],
+    "extensions": [
+      "ts"
+    ],
+    "require": [
+      "ts-node/register",
+      "tsconfig-paths/register"
+    ]
+  },
   "homepage": "https://github.com/iotame/iotame#readme",
   "dependencies": {
     "consola": "^2.11.3",
@@ -23,7 +46,9 @@
     "koa-json": "^2.0.2",
     "koa-logger": "^3.2.1",
     "koa-router": "^8.0.8",
-    "nuxt": "^2.11.0"
+    "mkdirp": "^1.0.3",
+    "nuxt": "^2.11.0",
+    "oclif": "^1.15.2"
   },
   "devDependencies": {
     "@iotame/eslint-config": "^1.0.0",
@@ -33,6 +58,22 @@
     "@types/koa-json": "^2.0.18",
     "@types/koa-logger": "^3.1.1",
     "@types/koa-router": "^7.4.0",
-    "ava": "^3.5.0"
+    "@types/mkdirp": "^1.0.0",
+    "@types/mock-fs": "^4.10.0",
+    "@types/node": "^13.9.1",
+    "@types/rmfr": "^2.0.0",
+    "@types/sinon": "^7.5.2",
+    "ava": "^3.5.0",
+    "codecov": "^3.6.5",
+    "cross-env": "^7.0.2",
+    "eslint": "^6.8.0",
+    "eslint-plugin-ava": "^10.2.0",
+    "mock-fs": "^4.11.0",
+    "nyc": "^15.0.0",
+    "rmfr": "^2.0.0",
+    "sinon": "^9.0.1",
+    "ts-node": "^8.6.2",
+    "tsconfig-paths": "^3.9.0",
+    "typescript": "^3.8.3"
   }
 }

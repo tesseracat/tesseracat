@@ -10,9 +10,9 @@ module.exports = {
   extends: [
     '@nuxtjs',
     'plugin:nuxt/recommended',
+    'plugin:ava/recommended',
     '@iotame',
   ],
-  // add your custom rules here
   rules: {
   },
 }
