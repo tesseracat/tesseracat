@@ -1,5 +1,6 @@
 import { Command, flags } from '@oclif/command'
 import Config from '@config'
+import Container from './app/container'
 
 /**
  * oclif does not currently work with mock-fs, so we want to keep
@@ -25,7 +26,12 @@ class OclifExampleSingleTs extends Command {
   async run (): Promise<void> {
     const { flags } = this.parse(OclifExampleSingleTs)
 
+    // Set up the configuration straight from our CLI flags
     Config.initializeFromOclif(flags)
+
+    // Boot up the application container
+    const container = new Container()
+    container.boot()
   }
 }
 

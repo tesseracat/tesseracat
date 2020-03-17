@@ -2,6 +2,11 @@ import test from 'ava'
 import sinon from 'sinon'
 import Command from '@lib/cli'
 import Config from '@config'
+import Container from '@lib/app/container'
+
+test.beforeEach(() => {
+  sinon.stub(Container.prototype, 'boot')
+})
 
 test.afterEach.always(() => {
   sinon.restore()

@@ -61,7 +61,8 @@
     "koa-router": "^8.0.8",
     "mkdirp": "^1.0.3",
     "nuxt": "^2.11.0",
-    "oclif": "^1.15.2"
+    "oclif": "^1.15.2",
+    "pify": "^5.0.0"
   },
   "devDependencies": {
     "@iotame/eslint-config": "^1.0.2",
@@ -75,6 +76,7 @@
     "@types/mkdirp": "^1.0.0",
     "@types/mock-fs": "^4.10.0",
     "@types/node": "^13.9.1",
+    "@types/pify": "^3.0.2",
     "@types/rmfr": "^2.0.0",
     "@types/sinon": "^7.5.2",
     "@typescript-eslint/eslint-plugin": "^2.23.0",
