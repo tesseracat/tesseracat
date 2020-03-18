@@ -3,13 +3,17 @@ module.exports = {
   env: {
     browser: true,
     node: true,
+    jest: true,
   },
-  parser: "@typescript-eslint/parser",
-  plugins: ["@typescript-eslint"],
+  parser: '@typescript-eslint/parser',
+  plugins: [
+    '@typescript-eslint',
+    'chai-friendly',
+  ],
   extends: [
     'plugin:@typescript-eslint/recommended',
-    'plugin:ava/recommended',
     '@iotame',
+    'plugin:chai-friendly/recommended',
   ],
   rules: {
     '@typescript-eslint/ban-ts-ignore': 'off',

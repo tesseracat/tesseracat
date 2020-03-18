@@ -7,13 +7,12 @@
     "iotame": "bin/run"
   },
   "scripts": {
-    "test": "cross-env TS_NODE_PROJECT=test/tsconfig.json jest",
-    "coverage:test": "cross-env TS_NODE_PROJECT=test/tsconfig.json nyc jest",
-    "coverage:upload": "codecov",
+    "test": "jest --verbose",
+    "test:watch": "jest --watchAll",
+    "test:coverage": "jest --coverage",
     "lint": "eslint --ext ts,js --ignore-pattern dist .",
     "build": "tsc",
-    "watch:test": "cross-env TS_NODE_PROJECT=test/tsconfig.json jest --watchAll",
-    "watch:build": "tsc --watch"
+    "build:watch": "tsc --watch"
   },
   "repository": {
     "type": "git",
@@ -30,23 +29,38 @@
   ],
   "jest": {
     "preset": "ts-jest",
-    "files": [
-      "test/**/*.test*"
-    ]
-  },
-  "nyc": {
-    "extends": "@istanbuljs/nyc-config-typescript",
-    "all": true,
-    "include": [
-      "src/**"
+    "testEnvironment": "node",
+    "testMatch": [
+      "<rootDir>/tests/**/*.test.ts"
     ],
-    "reporter": [
+    "watchPathIgnorePatterns": [
+      "<rootDir>/node_modules/"
+    ],
+    "setupFilesAfterEnv": [
+      "./tests/jest.setup.ts"
+    ],
+    "moduleNameMapper": {
+      "^@lib/(.*)$": "<rootDir>/src/$1",
+      "^@config$": "<rootDir>/src/config"
+    },
+    "globals": {
+      "ts-jest": {
+        "tsConfig": "tests/tsconfig.json"
+      }
+    },
+    "coverageReporters": [
       "text",
       "lcov"
+    ],
+    "collectCoverageFrom": [
+      "src/**/*.{js,ts}",
+      "!src/server/*"
     ]
   },
   "homepage": "https://github.com/iotame/iotame#readme",
   "dependencies": {
+    "@types/chai": "^4.2.11",
+    "@types/sinon-chai": "^3.2.3",
     "consola": "^2.11.3",
     "koa": "^2.11.0",
     "koa-bodyparser": "^4.2.1",
@@ -60,8 +74,8 @@
   },
   "devDependencies": {
     "@iotame/eslint-config": "^1.0.2",
-    "@istanbuljs/nyc-config-typescript": "^1.0.1",
     "@nuxt/types": "^0.6.4",
+    "@types/chai-as-promised": "^7.1.2",
     "@types/jest": "^25.1.4",
     "@types/koa": "^2.11.2",
     "@types/koa-bodyparser": "^4.3.0",
@@ -76,17 +90,16 @@
     "@types/sinon": "^7.5.2",
     "@typescript-eslint/eslint-plugin": "^2.23.0",
     "@typescript-eslint/parser": "^2.23.0",
-    "ava": "^3.5.0",
-    "ava-spec": "^1.1.1",
-    "codecov": "^3.6.5",
+    "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
     "cross-env": "^7.0.2",
     "eslint": "^6.8.0",
-    "eslint-plugin-ava": "^10.2.0",
+    "eslint-plugin-chai-friendly": "^0.5.0",
     "jest": "^25.1.0",
     "mock-fs": "^4.11.0",
-    "nyc": "^15.0.0",
     "rmfr": "^2.0.0",
     "sinon": "^9.0.1",
+    "sinon-chai": "^3.5.0",
     "ts-jest": "^25.2.1",
     "ts-node": "^8.6.2",
     "tsconfig-paths": "^3.9.0",

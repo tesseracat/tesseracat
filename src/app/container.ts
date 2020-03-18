@@ -1,5 +1,6 @@
 import Config from '@config'
 import fs from 'fs'
+import path from 'path'
 
 export default class Container {
   config: typeof Config
@@ -36,7 +37,7 @@ export default class Container {
    * @throws
    */
   private async verifyPidfile (): Promise<void> {
-    const pidfile = 'iotame.pid'
+    const pidfile = path.join(this.config.homeDir, 'iotame.pid')
 
     try {
       // If this raises, no pidfile was present

@@ -5,7 +5,13 @@
     "paths": {
       "@lib/*": ["src/*"],
       "@config": ["src/config/index"]
-    }
+    },
+    "types": [
+      "node",
+      "@types/node",
+      "@nuxt/types",
+      "@types/jest"
+    ]
   },
   "exclude": ["node_modules"]
 }
