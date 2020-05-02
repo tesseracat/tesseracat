@@ -15,6 +15,7 @@ export default class Container {
   async boot (): Promise<void> {
     await this.setWorkingDirectory()
     await this.verifyPidfile()
+    await this.copyPackageJson()
   }
 
   /**
@@ -59,5 +60,17 @@ export default class Container {
 
     fs.writeFileSync(pidfile, process.pid)
     // @TODO: Make sure to clean up the pidfile when the process exits!
+  }
+
+  /**
+   * Copiees the package.json fixture to the home directory if it does not
+   * already exist.
+   */
+  private async copyPackageJson (): Promise<boolean> {
+    const target = path.join(this.config.homeDir, 'package.json')
+    if (fs.existsSync(target)) return false
+
+    fs.copyFileSync(path.join(__dirname, 'fixtures', 'package.json'), target)
+    return true
   }
 }

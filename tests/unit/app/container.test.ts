@@ -1,9 +1,12 @@
 import Container from '@lib/app/container'
 import Config from '@config'
 import sinon from 'sinon'
-import mock from 'mock-fs'
 import path from 'path'
+import rmfr from 'rmfr'
+import mkdirp from 'mkdirp'
+import shortid from 'shortid'
 import fs from 'fs'
+import os from 'os'
 
 class NoProcessError extends Error {
   code = 'ESRCH'
@@ -12,36 +15,37 @@ class NoProcessError extends Error {
 }
 
 describe('Application Container', () => {
-  afterEach(() => {
+  async function removeHomeDir (): Promise<void> {
+    await rmfr(Config.homeDir)
+  }
+
+  async function createHomeDir (): Promise<void> {
+    await mkdirp(Config.homeDir)
+  }
+
+  afterEach(async () => {
     sinon.restore()
-    mock.restore()
   })
 
   describe('.boot()', () => {
-    const cwd = process.cwd()
-
-    beforeEach(() => {
-      Config.homeDir = 'my/path/.iotame'
-      mock({ [Config.homeDir]: {} })
+    beforeEach(async () => {
+      Config.homeDir = path.join(os.tmpdir(), 'iotame', shortid.generate())
+      await createHomeDir()
     })
 
     describe('working directory change', () => {
       it('changes the working directory upon bootup', async () => {
         await new Container().boot()
 
-        const targetDir = path.join(cwd, Config.homeDir)
-        process.cwd().should.equal(targetDir)
+        process.cwd().should.equal(Config.homeDir)
       })
 
       it('creates the app directory if it did not exist before', async () => {
-        // Re-create an empty file system
-        mock({})
-        const targetDir = path.join(cwd, Config.homeDir)
-
+        removeHomeDir()
         await new Container().boot()
 
-        fs.existsSync(targetDir).should.be.true
-        process.cwd().should.equal(targetDir)
+        fs.existsSync(Config.homeDir).should.be.true
+        process.cwd().should.equal(Config.homeDir)
       })
     })
 
@@ -55,14 +59,13 @@ describe('Application Container', () => {
         await new Container().boot()
 
         const pid = process.pid
-        const pidfile = fs.readFileSync(path.join(cwd, Config.homeDir, 'iotame.pid'), 'utf8')
+        const pidfile = fs.readFileSync(path.join(Config.homeDir, 'iotame.pid'), 'utf8')
 
         pidfile.should.equal(String(pid))
       })
 
       it('boots if a pidfile exists and links to a non-running process', async () => {
-        const pidPath = path.join(Config.homeDir, 'iotame.pid')
-        mock({ [pidPath]: '6345' })
+        fs.writeFileSync(path.join(Config.homeDir, 'iotame.pid'), '6345')
 
         await new Container().boot()
 
@@ -78,14 +81,21 @@ describe('Application Container', () => {
       })
 
       it('it raises if a pidfile exists and links to a running process', async () => {
-        const pidPath = path.join(Config.homeDir, 'iotame.pid')
-        mock({ [pidPath]: '6345' })
+        fs.writeFileSync(path.join(Config.homeDir, 'iotame.pid'), '6345')
 
         const processMock = sinon.mock(process)
         processMock.expects('kill').withExactArgs(6345, 0).returns(true)
 
         const container = new Container()
         return container.boot().should.be.rejected
+      })
+    })
+
+    describe('package.json', () => {
+      it('copies the default package.json if none exists', async () => {
+        await new Container().boot()
+
+        fs.existsSync(path.join(Config.homeDir, 'package.json')).should.be.true
       })
     })
   })
