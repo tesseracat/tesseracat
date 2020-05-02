@@ -1,7 +1,7 @@
 import Config from '@config'
 import fs from 'fs'
 import path from 'path'
-
+import replaceTemplate from '../utils/TemplateParser'
 export default class Container {
   config: typeof Config
 
@@ -71,6 +71,10 @@ export default class Container {
     if (fs.existsSync(target)) return false
 
     fs.copyFileSync(path.join(__dirname, 'fixtures', 'package.json'), target)
+    await replaceTemplate(target, {
+      version: this.config.package.version as string,
+    })
+
     return true
   }
 }

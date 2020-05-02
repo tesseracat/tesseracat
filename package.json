@@ -71,7 +71,8 @@
     "oclif": "^1.15.2",
     "pify": "^5.0.0",
     "rmfr": "^2.0.0",
-    "shortid": "^2.2.15"
+    "shortid": "^2.2.15",
+    "@schemastore/package": "0.0.5"
   },
   "devDependencies": {
     "@iotame/eslint-config": "^1.0.2",

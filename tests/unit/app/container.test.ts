@@ -97,6 +97,26 @@ describe('Application Container', () => {
 
         fs.existsSync(path.join(Config.homeDir, 'package.json')).should.be.true
       })
+
+      it('fills out the package.json version', async () => {
+        await new Container().boot()
+
+        const content = fs.readFileSync(path.join(Config.homeDir, 'package.json'), 'utf-8')
+        const json = JSON.parse(content)
+
+        json.version.should.equal(Config.package.version)
+      })
+
+      it('does not replace an existing package.json', async () => {
+        fs.writeFileSync(path.join(Config.homeDir, 'package.json'), '{"foo":"bar"}')
+
+        await new Container().boot()
+
+        const content = fs.readFileSync(path.join(Config.homeDir, 'package.json'), 'utf-8')
+        const json = JSON.parse(content)
+
+        expect(json).toHaveProperty('foo', 'bar')
+      })
     })
   })
 })

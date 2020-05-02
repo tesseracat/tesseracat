@@ -10,7 +10,8 @@
       "node",
       "@types/node",
       "@nuxt/types",
-      "@types/jest"
+      "@types/jest",
+      "@schemastore/package"
     ]
   },
   "exclude": ["node_modules"]
