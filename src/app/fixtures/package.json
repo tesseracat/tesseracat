@@ -4,5 +4,11 @@
   "version": ":version:",
   "dependencies": {
     "@iotame/web": "^0.0.6"
+  },
+  "iotame": {
+    "web": {
+      "port": "8081",
+      "interface": "@iotame/web"
+    }
   }
 }

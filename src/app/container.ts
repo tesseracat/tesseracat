@@ -1,7 +1,9 @@
-import Config from '@config'
+import Config from '../config'
 import fs from 'fs'
 import path from 'path'
 import replaceTemplate from '../utils/TemplateParser'
+import { exec } from 'child_process'
+
 export default class Container {
   config: typeof Config
 
@@ -16,6 +18,7 @@ export default class Container {
     await this.setWorkingDirectory()
     await this.verifyPidfile()
     await this.copyPackageJson()
+    await this.installDependencies()
   }
 
   /**
@@ -63,7 +66,7 @@ export default class Container {
   }
 
   /**
-   * Copiees the package.json fixture to the home directory if it does not
+   * Copies the package.json fixture to the home directory if it does not
    * already exist.
    */
   private async copyPackageJson (): Promise<boolean> {
@@ -76,5 +79,21 @@ export default class Container {
     })
 
     return true
+  }
+
+  /**
+   * Runs "npm install" in the iotame home directory, installing all its
+   * specified dependencies.
+   */
+  private async installDependencies (): Promise<void> {
+    return new Promise((resolve, reject) => {
+      exec('npm install', (error, stdout, stderr) => {
+        if (error) {
+          return reject(error)
+        }
+
+        resolve()
+      })
+    })
   }
 }

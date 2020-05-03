@@ -13,9 +13,6 @@
     "strict": true,
     "outDir": "./dist",
     "baseUrl": ".",
-    "paths": {
-      "@config": ["src/config/index"]
-    },
     "rootDirs": [
       "./src"
     ],

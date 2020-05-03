@@ -1,8 +1,0 @@
-{
-  "name": "iotame",
-  "private": true,
-  "version": ":version:",
-  "dependencies": {
-    "@iotame/web": "^0.0.6"
-  }
-}

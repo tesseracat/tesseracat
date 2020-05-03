@@ -1,5 +1,5 @@
 import { Command, flags } from '@oclif/command'
-import Config from '@config'
+import Config from './config'
 import Container from './app/container'
 
 /**
