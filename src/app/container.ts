@@ -73,7 +73,7 @@ export default class Container {
     const target = path.join(this.config.homeDir, 'package.json')
     if (fs.existsSync(target)) return false
 
-    fs.copyFileSync(path.join(__dirname, 'fixtures', 'package.json'), target)
+    fs.copyFileSync(path.join(__dirname, 'fixtures', 'user-package.json'), target)
     await replaceTemplate(target, {
       version: this.config.package.version as string,
     })
